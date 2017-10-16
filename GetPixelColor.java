@@ -2,6 +2,7 @@ import java.io.*;
 import java.awt.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public class GetPixelColor
 {
@@ -12,13 +13,43 @@ public class GetPixelColor
   // picture width/height 
   int width = image.getWidth();
   int height = image.getHeight();
+  
+  // each pixel is a "vertex"
+  int[] pixels = new int[width * height];
+  int[][] graph = new int[width*height][width*height];
+  
   int[][] colorArr = new int[width][height];
   
   for (int i = 0; i < width; i++){
     for (int j = 0; j < height; j++){
-      colorArr[i][j] =  image.getRGB(i,j); 
+      colorArr[i][j] =  image.getRGB(i,j);
+      pixels[i*height + j] = image.getRGB(i,j);
     }
   }
+  
+  for (int i = 0; i < width * height; i++){
+    if (i > 0){
+      graph[i][i-1] = 1;
+      graph[i-1][i] = 1;
+    }
+    
+    if (i < width*height-1){
+      graph[i][i+1] = 1;
+      graph[i+1][i] = 1;
+    }
+    
+    if (i - height >=0){
+      graph[i][i-height] = 1;
+      graph[i-height][i] = 1;
+    }
+    
+    if (i + height < width*height){
+      graph[i][i+height] = 1;
+      graph[i+height][i] = 1;
+    }
+  }
+  
+  System.out.println(Arrays.deepToString(graph));
   
   int  red   = (colorArr[0][0] & 0x00ff0000) >> 16;
   int  green = (colorArr[0][0] & 0x0000ff00) >> 8;
