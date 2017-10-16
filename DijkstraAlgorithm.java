@@ -7,7 +7,7 @@ public class DijkstraAlgorithm
 
   }
   
-  public static double[] DijkstraDecreaseKeyUpdate(int[][] graph, int source, int pixels[]){
+  public static double[] DijkstraDecreaseKeyUpdate(int[][] graph, int source, int[] pixels){
     
     double [] dist = new double[graph.length];
     int [] prev = new int[graph.length];
@@ -33,7 +33,7 @@ public class DijkstraAlgorithm
       removed[u] = true;
       for (int v = 0; v < graph.length; v++){
         if (graph[u][v] == 1 && !removed[v]){
-          double alt = dist[u] + GetPixelColor.distance(pixels[u],pixels[v]);
+          double alt = dist[u] + Main.distance(pixels[u],pixels[v]);
           if (alt < dist[v]){
             dist[v] = alt;
             prev[v] = u;
@@ -47,7 +47,7 @@ public class DijkstraAlgorithm
   }
   
   
-  public static int[] DijkstraOtherUpdate(int[][] graph, int source){
+  public static int[] DijkstraOtherUpdate(int[][] graph, int source, int[] pixels){
     int[] val = new int[0];
    
     return val;

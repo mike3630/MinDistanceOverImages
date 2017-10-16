@@ -4,10 +4,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
-public class GetPixelColor
+public class Main
 {
   public static void main(String args[]) throws IOException{
-  File file= new File("pic.png");
+  File file= new File("test1.png");
   BufferedImage image = ImageIO.read(file);
   
   // picture width/height 
@@ -21,6 +21,7 @@ public class GetPixelColor
   //TODO remove colorArr
   int[][] colorArr = new int[width][height];
   
+  // create colour vertices
   for (int i = 0; i < width; i++){
     for (int j = 0; j < height; j++){
       colorArr[i][j] =  image.getRGB(i,j);
@@ -28,6 +29,7 @@ public class GetPixelColor
     }
   }
   
+  // create graph with edges
   for (int i = 0; i < width * height; i++){
     if (i % height != 0){
       graph[i][i-1] = 1;
@@ -50,10 +52,8 @@ public class GetPixelColor
     }
   }
   
-  System.out.println(Arrays.deepToString(graph));
-  
   double[] distances1 = DijkstraAlgorithm.DijkstraDecreaseKeyUpdate(graph, 0, pixels);
-  int[] distances2 = DijkstraAlgorithm.DijkstraOtherUpdate(graph, 0);
+  int[] distances2 = DijkstraAlgorithm.DijkstraOtherUpdate(graph, 0, pixels);
   
   System.out.println("dist1: " + Arrays.toString(distances1));
   
