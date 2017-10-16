@@ -18,6 +18,7 @@ public class GetPixelColor
   int[] pixels = new int[width * height];
   int[][] graph = new int[width*height][width*height];
   
+  //TODO remove colorArr
   int[][] colorArr = new int[width][height];
   
   for (int i = 0; i < width; i++){
@@ -51,6 +52,10 @@ public class GetPixelColor
   
   System.out.println(Arrays.deepToString(graph));
   
+  double[] distances1 = DijkstraAlgorithm.DijkstraDecreaseKeyUpdate(graph, 0);
+  int[] distances2 = DijkstraAlgorithm.DijkstraOtherUpdate(graph, 0);
+  
+  //TODO Cleanup
   int  red   = (colorArr[0][0] & 0x00ff0000) >> 16;
   int  green = (colorArr[0][0] & 0x0000ff00) >> 8;
   int  blue  =  colorArr[0][0] & 0x000000ff;
