@@ -29,12 +29,12 @@ public class GetPixelColor
   }
   
   for (int i = 0; i < width * height; i++){
-    if (i > 0){
+    if (i % height != 0){
       graph[i][i-1] = 1;
       graph[i-1][i] = 1;
     }
     
-    if (i < width*height-1){
+    if ((i + 1) % height != 0){
       graph[i][i+1] = 1;
       graph[i+1][i] = 1;
     }
@@ -52,24 +52,26 @@ public class GetPixelColor
   
   System.out.println(Arrays.deepToString(graph));
   
-  double[] distances1 = DijkstraAlgorithm.DijkstraDecreaseKeyUpdate(graph, 0);
+  double[] distances1 = DijkstraAlgorithm.DijkstraDecreaseKeyUpdate(graph, 0, pixels);
   int[] distances2 = DijkstraAlgorithm.DijkstraOtherUpdate(graph, 0);
   
+  System.out.println("dist1: " + Arrays.toString(distances1));
+  
   //TODO Cleanup
-  int  red   = (colorArr[0][0] & 0x00ff0000) >> 16;
-  int  green = (colorArr[0][0] & 0x0000ff00) >> 8;
-  int  blue  =  colorArr[0][0] & 0x000000ff;
+  int  red   = (pixels[1] & 0x00ff0000) >> 16;
+  int  green = (pixels[1] & 0x0000ff00) >> 8;
+  int  blue  =  pixels[1] & 0x000000ff;
   System.out.println("Red Color value = "+ red);
   System.out.println("Green Color value = "+ green);
   System.out.println("Blue Color value = "+ blue);
   
-  System.out.println("dist: " + distance(colorArr[0][0], colorArr[width-1][0]));
+  System.out.println("dist: " + distance(pixels[0], pixels[1]));
   
   }
   
   public static double distance(int pix1, int pix2){
     int g = 1;
-    System.out.println("colordist: " + colordist(pix1,pix2));
+    //System.out.println("colordist: " + colordist(pix1,pix2));
     return Math.sqrt(1 + g * colordist(pix1, pix2));
   }
   

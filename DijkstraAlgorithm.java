@@ -1,39 +1,46 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class DijkstraAlgorithm
 {
   public static void main(String args[]){
 
   }
   
-  public static double[] DijkstraDecreaseKeyUpdate(int[][] graph, int source){
+  public static double[] DijkstraDecreaseKeyUpdate(int[][] graph, int source, int pixels[]){
     
     double [] dist = new double[graph.length];
-    double [] prev = new double[graph.length];
-    
-    int [] removed = new int[graph.length];
+    int [] prev = new int[graph.length];
+    boolean [] removed = new boolean[graph.length];
+    ArrayList<FibonacciHeap.Entry<Integer>> entries = new ArrayList<FibonacciHeap.Entry<Integer>>();
       
     FibonacciHeap<Integer> q = new FibonacciHeap<Integer>();
     
     for (int i = 0; i < graph.length; i++){
       dist[i] = Double.POSITIVE_INFINITY;
       prev[i] = -1;
-      q.enqueue(i,dist[i]);
+      removed[i] = false;
+      
+      if (i == source){
+        dist[source] = 0;
+      }
+      
+      entries.add(q.enqueue(i,dist[i]));
     }
-    
-    dist[source] = 0;
     
     while(!q.isEmpty()){
       int u = q.dequeueMin().getValue();
+      removed[u] = true;
       for (int v = 0; v < graph.length; v++){
-        if (graph[u][v] == 1){
-          double alt = dist[u] + GetPixelColor.distance(u,v);
+        if (graph[u][v] == 1 && !removed[v]){
+          double alt = dist[u] + GetPixelColor.distance(pixels[u],pixels[v]);
           if (alt < dist[v]){
             dist[v] = alt;
             prev[v] = u;
-            FibonacciHeap.Entry<Integer> result = new FibonacciHeap.Entry<Integer>(v, dist[v]);
-            q.decreaseKey(result);
+            q.decreaseKey(entries.get(v), alt);
           }
         }
-      }    
+      } 
     }
    
     return dist;
