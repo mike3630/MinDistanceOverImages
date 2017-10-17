@@ -3,17 +3,13 @@ import java.util.Arrays;
 
 public class DijkstraAlgorithm
 {
-  public static void main(String args[]){
-
-  }
-  
   public static double[] DijkstraDecreaseKeyUpdate(ArrayList<ArrayList<Integer>> graph, int source, int[] pixels){
     
     double [] dist = new double[graph.size()];
     int [] prev = new int[graph.size()];
     boolean [] removed = new boolean[graph.size()];
     ArrayList<FibonacciHeap.Entry<Integer>> entries = new ArrayList<FibonacciHeap.Entry<Integer>>();
-      
+    
     FibonacciHeap<Integer> q = new FibonacciHeap<Integer>();
     
     for (int i = 0; i < graph.size(); i++){
@@ -43,7 +39,7 @@ public class DijkstraAlgorithm
         }
       } 
     }
-   
+    
     return dist;
   }
   
@@ -53,7 +49,7 @@ public class DijkstraAlgorithm
     int [] prev = new int[graph.size()];
     boolean [] removed = new boolean[graph.size()];
     ArrayList<FibonacciHeap.Entry<Integer>> entries = new ArrayList<FibonacciHeap.Entry<Integer>>();
-      
+    
     FibonacciHeap<Integer> q = new FibonacciHeap<Integer>();
     
     for (int i = 0; i < graph.size(); i++){
@@ -88,9 +84,9 @@ public class DijkstraAlgorithm
         }
       } 
     }
-   
+    
     return dist;
   }
 }
-  
+
 
