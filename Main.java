@@ -12,18 +12,32 @@ public class Main
     String[] inFiles = {"test1.png", "test2.png", "test3.png", "test4.png",
       "test5.png", "test6.png", "test7.png", "test8.png", "test9.png", "test10.png", "test11.png"};
     
-    String[] outFiles = {"grey1.png", "grey2.png", "grey3.png", "grey4.png",
-      "grey5.png", "grey6.png", "grey7.png", "grey8.png", "grey9.png", "grey10.png", "grey11.png"};
+    String[] tlFiles = {"TL1.png", "TL2.png", "TL3.png", "TL4.png",
+      "TL5.png", "TL6.png", "TL7.png", "TL8.png", "TL9.png", "TL10.png", "TL11.png"};
     
+    String[] cFiles = {"C1.png", "C2.png", "C3.png", "C4.png",
+      "C5.png", "C6.png", "C7.png", "C8.png", "C9.png", "C10.png", "C11.png"};
+    
+    // test from top right corner as source
     for (int i = 0; i < inFiles.length; i++){
       System.out.println("----------Test " + (i + 1) + " ----------");
-      dijkstraComparison(inFiles[i], outFiles[i]);
+      dijkstraComparison(inFiles[i], tlFiles[i], "TOP RIGHT");
+      System.out.println("----------End Test " + (i + 1) + " ----------");
+      System.out.println();
+    }
+    
+    // test from center of image as source
+    for (int i = 0; i < inFiles.length; i++){
+      System.out.println("----------Test " + (i + 1) + " ----------");
+      dijkstraComparison(inFiles[i], cFiles[i], "CENTER");
       System.out.println("----------End Test " + (i + 1) + " ----------");
       System.out.println();
     }
   }
   
-  public static void dijkstraComparison(String inFile, String outFile) throws IOException{
+  //TODO random locations as source
+  
+  public static void dijkstraComparison(String inFile, String outFile, String source) throws IOException{
     File file= new File(inFile);
     BufferedImage image = ImageIO.read(file);
     
@@ -34,6 +48,14 @@ public class Main
     // each pixel is a "vertex"
     int[] pixels = new int[width * height];
     int[] greyScale = new int[width * height];
+    
+    int index = 0;
+    
+    if (source == "TOP LEFT"){
+      index = 0;
+    } else if (source == "CENTER"){
+      index = (width * height)/2 + height/2;
+    }
     
     ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>();
     
@@ -65,10 +87,10 @@ public class Main
     }
 
     long start = System.currentTimeMillis();
-    double[] distances1 = DijkstraAlgorithm.DijkstraDecreaseKeyUpdate(graph, 0, pixels);
+    double[] distances1 = DijkstraAlgorithm.DijkstraDecreaseKeyUpdate(graph, index, pixels);
     System.out.println("Decrease-Key done. That took " + ((System.currentTimeMillis() - start) / 1000.0) + " seconds.");
     start = System.currentTimeMillis();
-    double[] distances2 = DijkstraAlgorithm.DijkstraOtherUpdate(graph, 0, pixels);
+    double[] distances2 = DijkstraAlgorithm.DijkstraOtherUpdate(graph, index, pixels);
     System.out.println("Re-Enqueue done.   That took " + ((System.currentTimeMillis() - start) / 1000.0) + " seconds.");
     
     double max = 0;
@@ -106,7 +128,7 @@ public class Main
   }
   
   public static double distance(int pix1, int pix2){
-    int g = 1;
+    int g = 10;
     return Math.sqrt(1 + g * colordist(pix1, pix2));
   }
   
