@@ -9,8 +9,8 @@ public class Main
 {
   public static void main(String args[]) throws IOException{
     
-    String[] files = {"test1.png", "test3.png", "test4.png",
-      "test7.png", "test8.png", "test9.png", "test10.png", "test11.png"};
+    String[] files = {"test1.png", "test2.png", "test3.png", "test4.png",
+      "test5.png", /*"test6.png",*/ "test7.png", "test8.png", "test9.png", "test10.png", "test11.png"};
     for (int i = 0; i < files.length; i++){
       System.out.println("----------Test " + (i + 1) + " ----------");
       dijkstraComparison(files[i]);
@@ -60,10 +60,10 @@ public class Main
     }
 
     long start = System.currentTimeMillis();
-    double[] distances1 = DijkstraAlgorithm.DijkstraDecreaseKeyUpdate(graph, 0, pixels);
+    double[] distances1 = DijkstraAlgorithm.DijkstraDecreaseKeyUpdate(graph, (width*height)/2, pixels);
     System.out.println("Decrease-Key done. That took " + ((System.currentTimeMillis() - start) / 1000.0) + " seconds.");
     start = System.currentTimeMillis();
-    double[] distances2 = DijkstraAlgorithm.DijkstraOtherUpdate(graph, 0, pixels);
+    double[] distances2 = DijkstraAlgorithm.DijkstraOtherUpdate(graph, (width*height)/2, pixels);
     System.out.println("Re-Enqueue done.   That took " + ((System.currentTimeMillis() - start) / 1000.0) + " seconds.");
     
     for (int i=0; i < distances1.length; i++){
