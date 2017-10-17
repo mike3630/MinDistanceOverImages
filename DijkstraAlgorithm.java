@@ -7,16 +7,16 @@ public class DijkstraAlgorithm
 
   }
   
-  public static double[] DijkstraDecreaseKeyUpdate(int[][] graph, int source, int[] pixels){
+  public static double[] DijkstraDecreaseKeyUpdate(ArrayList<ArrayList<Integer>> graph, int source, int[] pixels){
     
-    double [] dist = new double[graph.length];
-    int [] prev = new int[graph.length];
-    boolean [] removed = new boolean[graph.length];
+    double [] dist = new double[graph.size()];
+    int [] prev = new int[graph.size()];
+    boolean [] removed = new boolean[graph.size()];
     ArrayList<FibonacciHeap.Entry<Integer>> entries = new ArrayList<FibonacciHeap.Entry<Integer>>();
       
     FibonacciHeap<Integer> q = new FibonacciHeap<Integer>();
     
-    for (int i = 0; i < graph.length; i++){
+    for (int i = 0; i < graph.size(); i++){
       dist[i] = Double.POSITIVE_INFINITY;
       prev[i] = -1;
       removed[i] = false;
@@ -31,13 +31,14 @@ public class DijkstraAlgorithm
     while(!q.isEmpty()){
       int u = q.dequeueMin().getValue();
       removed[u] = true;
-      for (int v = 0; v < graph.length; v++){
-        if (graph[u][v] == 1 && !removed[v]){
+      for (int i = 0; i < graph.get(u).size(); i++){
+        int v = graph.get(u).get(i);
+        if (!removed[v]){
           double alt = dist[u] + Main.distance(pixels[u],pixels[v]);
           if (alt < dist[v]){
             dist[v] = alt;
             prev[v] = u;
-            q.decreaseKey(entries.get(v), alt);
+            q.decreaseKey(entries.get(v), dist[v]);
           }
         }
       } 
@@ -47,10 +48,49 @@ public class DijkstraAlgorithm
   }
   
   
-  public static int[] DijkstraOtherUpdate(int[][] graph, int source, int[] pixels){
-    int[] val = new int[0];
+  public static double[] DijkstraOtherUpdate(ArrayList<ArrayList<Integer>> graph, int source, int[] pixels){
+    double [] dist = new double[graph.size()];
+    int [] prev = new int[graph.size()];
+    boolean [] removed = new boolean[graph.size()];
+    ArrayList<FibonacciHeap.Entry<Integer>> entries = new ArrayList<FibonacciHeap.Entry<Integer>>();
+      
+    FibonacciHeap<Integer> q = new FibonacciHeap<Integer>();
+    
+    for (int i = 0; i < graph.size(); i++){
+      dist[i] = Double.POSITIVE_INFINITY;
+      prev[i] = -1;
+      removed[i] = false;
+      
+      if (i == source){
+        dist[source] = 0;
+      }
+      
+      entries.add(q.enqueue(i,dist[i]));
+    }
+    
+    while(!q.isEmpty()){
+      FibonacciHeap.Entry<Integer> a = q.dequeueMin();
+      int u = a.getValue();
+      double distu = a.getPriority();
+      if (dist[u] < distu && dist[u] != 0){
+        continue;
+      }
+      removed[u] = true;
+      for (int i = 0; i < graph.get(u).size(); i++){
+        int v = graph.get(u).get(i);
+        if (!removed[v]){
+          double alt = dist[u] + Main.distance(pixels[u],pixels[v]);
+          if (alt < dist[v]){
+            dist[v] = alt;
+            prev[v] = u;
+            q.enqueue(v, dist[v]);
+          }
+        }
+      } 
+    }
    
-    return val;
+    return dist;
   }
 }
+  
 
