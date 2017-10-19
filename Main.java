@@ -9,16 +9,31 @@ public class Main
 {
   public static void main(String args[]) throws IOException{
     
-    String[] inFiles = {"test1.png", "test2.png", "test3.png", "test4.png",
-      "test5.png", "test6.png", "test7.png", "test8.png", "test9.png", "test10.png", "test11.png"};
+    String[] inFiles = {"testImages/test1.png", "testImages/test2.png", "testImages/test3.png", "testImages/test4.png",
+      "testImages/test5.png", "testImages/test6.png", "testImages/test7.png", "testImages/test8.png", "testImages/test9.png",
+      "testImages/test10.png", "testImages/test11.png"};
     
-    String[] tlFiles = {"TL1.png", "TL2.png", "TL3.png", "TL4.png",
-      "TL5.png", "TL6.png", "TL7.png", "TL8.png", "TL9.png", "TL10.png", "TL11.png"};
+    String[] tlFiles = {"topLeft/TL1.png", "topLeft/TL2.png", "topLeft/TL3.png", "topLeft/TL4.png",
+      "topLeft/TL5.png", "topLeft/TL6.png", "topLeft/TL7.png", "topLeft/TL8.png", "topLeft/TL9.png", 
+      "topLeft/TL10.png", "topLeft/TL11.png"};
     
-    String[] cFiles = {"C1.png", "C2.png", "C3.png", "C4.png",
-      "C5.png", "C6.png", "C7.png", "C8.png", "C9.png", "C10.png", "C11.png"};
+    String[] cFiles = {"center/C1.png", "center/C2.png", "center/C3.png", "center/C4.png",
+      "center/C5.png", "center/C6.png", "center/C7.png", "center/C8.png", "center/C9.png",
+      "center/C10.png", "center/C11.png"};
+    
+    String[] runtimeFiles = {"runtime/1m.png", "runtime/2m.png", "runtime/3m.png", "runtime/4m.png",
+      "runtime/5m.png"};
+    
+    // test the runtime of the algorithm
+    for (int i = 0; i < runtimeFiles.length; i++){
+      System.out.println("----------Test " + (i + 1) + " ----------");
+      dijkstraComparison(runtimeFiles[i], tlFiles[i], "TOP RIGHT");
+      System.out.println("----------End Test " + (i + 1) + " ----------");
+      System.out.println();
+    }
     
     // test from top right corner as source
+    /*
     for (int i = 0; i < inFiles.length; i++){
       System.out.println("----------Test " + (i + 1) + " ----------");
       dijkstraComparison(inFiles[i], tlFiles[i], "TOP RIGHT");
@@ -33,9 +48,12 @@ public class Main
       System.out.println("----------End Test " + (i + 1) + " ----------");
       System.out.println();
     }
+    */
+    
+    
+    
   }
   
-  //TODO random locations as source
   
   public static void dijkstraComparison(String inFile, String outFile, String source) throws IOException{
     File file= new File(inFile);
