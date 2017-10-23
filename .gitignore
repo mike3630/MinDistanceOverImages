@@ -1,2 +1,6 @@
 *.class
 *.java~
+*.csv
+report/
+runtime/
+runtimeResult/
