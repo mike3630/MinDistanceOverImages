@@ -15,7 +15,7 @@ public class Main
     File folder = new File(imageLocation);
     File[] list = folder.listFiles();
     
-    PrintWriter runtimeFile = new PrintWriter("runtime.csv", "UTF-8");
+    PrintWriter runtimeFile = new PrintWriter("runtimeTL.csv", "UTF-8");
     runtimeFile.println("# Pixels, Decrease-Key, Stale-Node");
     
     long start = System.currentTimeMillis();
@@ -25,7 +25,7 @@ public class Main
         System.out.println("----------Test " + (i + 1) + " ----------");
         dijkstraComparison(imageLocation + "/" + list[i].getName(),
                            resultLocation + "/" + list[i].getName(),
-                           "RANDOM", runtimeFile);
+                           "TOP LEFT", runtimeFile);
         System.out.println("----------End Test " + (i + 1) + " ----------");
         System.out.println();
       }
@@ -33,23 +33,55 @@ public class Main
     
     System.out.println("Testing done. That took " + ((System.currentTimeMillis() - start) / 1000.0) + " seconds.");
     
+    double finish = ((System.currentTimeMillis() - start) / 1000.0);
+    
+    runtimeFile.println("Total Time: " + finish + ", # Pictures: " + list.length);
+    
+    runtimeFile.close();
+    
+    start = System.currentTimeMillis();
+    
+    runtimeFile = new PrintWriter("runtimeC.csv", "UTF-8");
+    runtimeFile.println("# Pixels, Decrease-Key, Stale-Node");
+    
     // test from top right corner as source
-    /*
-    for (int i = 0; i < inFiles.length; i++){
+    for (int i = 0; i < list.length; i++){
       System.out.println("----------Test " + (i + 1) + " ----------");
-      dijkstraComparison(inFiles[i], tlFiles[i], "TOP RIGHT");
+      dijkstraComparison(imageLocation + "/" + list[i].getName(),
+                           resultLocation + "/" + list[i].getName(),
+                           "CENTER", runtimeFile);
       System.out.println("----------End Test " + (i + 1) + " ----------");
       System.out.println();
     }
     
+    System.out.println("Testing done. That took " + ((System.currentTimeMillis() - start) / 1000.0) + " seconds.");
+    
+    finish = ((System.currentTimeMillis() - start) / 1000.0);
+    
+    runtimeFile.println("Total Time: " + finish + ", # Pictures: " + list.length);
+    
+    runtimeFile.close();
+    
+    start = System.currentTimeMillis();
+    
+    runtimeFile = new PrintWriter("runtimeR.csv", "UTF-8");
+    runtimeFile.println("# Pixels, Decrease-Key, Stale-Node");
+    
     // test from center of image as source
-    for (int i = 0; i < inFiles.length; i++){
+    for (int i = 0; i < list.length; i++){
       System.out.println("----------Test " + (i + 1) + " ----------");
-      dijkstraComparison(inFiles[i], cFiles[i], "CENTER");
+      dijkstraComparison(imageLocation + "/" + list[i].getName(),
+                           resultLocation + "/" + list[i].getName(),
+                           "RANDOM", runtimeFile);
       System.out.println("----------End Test " + (i + 1) + " ----------");
       System.out.println();
     }
-    */
+    
+    System.out.println("Testing done. That took " + ((System.currentTimeMillis() - start) / 1000.0) + " seconds.");
+    
+    finish = ((System.currentTimeMillis() - start) / 1000.0);
+    
+    runtimeFile.println("Total Time: " + finish + ", # Pictures: " + list.length);
     
     runtimeFile.close();
     
