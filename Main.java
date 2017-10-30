@@ -109,9 +109,11 @@ public class Main
     int[] greyScale = new int[width * height];
     
     int index = 0;
+    int calcDiameter = 0;
     
     if (source == "TOP LEFT"){
       index = 0;
+      calcDiameter = 1;
     } else if (source == "CENTER"){
       index = (width * height)/2 + height/2;
     } else if (source == "RANDOM"){
@@ -160,7 +162,13 @@ public class Main
     
     double finish2 = ((System.currentTimeMillis() - start2) / 1000.0);
     
-    runtimeFile.println((width*height) + ", " + finish1 + ", " + finish2);
+    if (calcDiameter == 1){
+      runtimeFile.println((width*height) + ", " + finish1 + ", " + finish2 + ", " + 
+                          distances1[width*height-1]);
+    }else {
+      runtimeFile.println((width*height) + ", " + 
+                          finish1 + ", " + finish2);
+    }
     
     double max = 0;
     for (int i=0; i < distances1.length; i++){

@@ -2,5 +2,4 @@
 *.java~
 *.csv
 report/
-runtime/
 runtimeResult/
